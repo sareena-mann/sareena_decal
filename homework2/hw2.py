@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 # 1) Suppose your current working directory is ~/Desktop/classes/python_decal/. What command would allow you to navigate directly to ~/Desktop?
 #       cd ~/Desktop
+||||||| parent of 1d0aa07 (finished hw2)
+# 1) Suppose your current working directory is ~/Desktop/classes/python_decal/. What command would allow you to navigate directly to ~/Desktop?
+=======
+1) Suppose your current working directory is ~/Desktop/classes/python_decal/. What command would allow you to navigate directly to ~/Desktop?
+#       cd ~/Desktop
+>>>>>>> 1d0aa07 (finished hw2)
 # 2) What does ~/ mean?
 #       The home directory
 # 3) What's the difference between and abolute and a relative path in your terminal?
@@ -17,4 +24,9 @@
 # 9) How does cloning a repository differ from pulling from a repository?
 #       Cloning creates a local copy of the fill while pulling updates the existing file.
 # 10) Tell me a fun fact!
+<<<<<<< HEAD
 #       My dog and I share the same bday!
+||||||| parent of 1d0aa07 (finished hw2)
+=======
+#       My dog and I share the same bday (August 23)!
+>>>>>>> 1d0aa07 (finished hw2)
