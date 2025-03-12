@@ -26,7 +26,7 @@ def evenOrOdd(num):
 def sumWithLoop(list):
     sum = 0;
     for i in list:
-        sum += i:
+        sum += i
     return sum
 
 #PART 4
