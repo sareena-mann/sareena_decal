@@ -40,10 +40,10 @@ def orbit_positions(e, a, i, w, Omega, TP, num_points=1000):
     return np.array(positions)
 
 # Example usage (with dummy data)
-positions = orbit_positions(e=0.5, a=2.0, i=30, w=45, Omega=60, TP=2459200)
+#positions = orbit_positions(e=0.5, a=2.0, i=30, w=45, Omega=60, TP=2459200)
 
 # Plot
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.plot(positions[:,0], positions[:,1], positions[:,2])
-plt.show()
+#fig = plt.figure()
+#ax = fig.add_subplot(111, projection='3d')
+#ax.plot(positions[:,0], positions[:,1], positions[:,2])
+#plt.show()
