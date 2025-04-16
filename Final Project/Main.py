@@ -4,6 +4,7 @@ import pandas as pd
 from tkintertable import TableCanvas, TableModel
 import Calculations
 
+dataFrame = pd.DataFrame()
 class MyGUI:
     def __init__(self):
         self.root = tk.Tk()
@@ -85,11 +86,13 @@ class MyGUI:
         self.root.mainloop()
 
     def show_animation(self):
-
+        comet = self.txtbox.get().strip()
         if self.check_state.get() == 0:
-            # if comet string not valid:
-                # messagebox.showinfo(title="invalid input", message = "Invalid comet, see list of comets for valid input")
-            comet = self.txtbox.get('1.0', tk.END).strip()
+            if comet == "":
+                messagebox.showinfo(title="Invalid Input",
+                                    message="Please enter a comet name or check the box for a random one.")
+            else:
+                Calculations.animate(comet, df)
         else:
             messagebox.showinfo()
 

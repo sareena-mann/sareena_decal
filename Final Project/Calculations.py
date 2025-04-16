@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import newton
 from mpl_toolkits.mplot3d import Axes3D
+import Main
+
 
 # Constants
 G = 1.32712440018e11  # Solar gravitational constant (km^3/s^2)
@@ -47,3 +49,54 @@ def orbit_positions(e, a, i, w, Omega, TP, num_points=1000):
 #ax = fig.add_subplot(111, projection='3d')
 #ax.plot(positions[:,0], positions[:,1], positions[:,2])
 #plt.show()
+
+'''
+EXAMPLE
+positions = orbit_positions(
+    e=0.967,         # eccentricity
+    a=17.8,          # semi-major axis in AU (converted to km later if needed)
+    i=162.26,        # inclination
+    w=111.33,        # argument of perihelion
+    Omega=58.42,     # longitude of ascending node
+    TP=2446467.395,  # time of perihelion (not used here, yet)
+    num_points=500
+)
+'''
+def animate(cometName, df):
+
+    Main.MyGUI.df
+
+
+positions = orbit_positions()
+
+#Now to ANIMATE
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+line, = ax.plot([], [], [], lw=2, color='blue')
+point, = ax.plot([], [], [], 'ro')  #comet head
+
+# Set axis limits for clarity
+max_val = np.max(np.abs(positions)) * 1.1
+ax.set_xlim(-max_val, max_val)
+ax.set_ylim(-max_val, max_val)
+ax.set_zlim(-max_val, max_val)
+ax.set_title("Comet Trajectory Animation")
+
+def init():
+    line.set_data([], [])
+    line.set_3d_properties([])
+    point.set_data([], [])
+    point.set_3d_properties([])
+    return line, point
+
+def update(frame):
+    line.set_data(positions[:frame, 0], positions[:frame, 1])
+    line.set_3d_properties(positions[:frame, 2])
+    point.set_data(positions[frame, 0], positions[frame, 1])
+    point.set_3d_properties(positions[frame, 2])
+    return line, point
+
+ani = FuncAnimation(fig, update, frames=len(positions), init_func=init,
+                    interval=20, blit=True)
+
+plt.show()
