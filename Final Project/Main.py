@@ -8,7 +8,12 @@ import GuessOrbit
 class MyGUI:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.geometry("900x1200")
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        # Maximize window to screen size
+        self.root.geometry(f"{screen_width}x{screen_height}+0+0")
+        self.root.state('zoomed')  # Maximize window (Windows)
+        # Alternative for Linux/macOS: self.root.attributes('-zoomed', True)
         self.root.title("Near Earth Comet Simulator")
         self.root.configure(bg="#d8d7d3")
 
@@ -19,7 +24,7 @@ class MyGUI:
             text="Welcome to the Near Earth Comet Simulator! Are you excited to see some comets? Please enter your "
                  "desired comet in the textbox below.",
             font=('Arial', 25),
-            wraplength=800,
+            wraplength=screen_width - 100,
         )
         label.pack(padx=10, pady=10)
 
@@ -61,7 +66,7 @@ class MyGUI:
             bg="#a68b8f",
             text="Below are the trajectories of 160 near-Earth comets used. The data is from NASA’s Open Data Portal",
             font=('Arial', 18),
-            wraplength=800,
+            wraplength=screen_width - 100
         )
         CometInfo.pack(padx=10, pady=10)
 
@@ -122,8 +127,8 @@ class MyGUI:
             table = TableCanvas(
                 table_frame,
                 model=table_model,
-                width=850,
-                height=400,
+                width=screen_width-100,
+                height=min(len(self.df) * 25, screen_height-400),
                 readonly=True
             )
             # Set background and text colors
