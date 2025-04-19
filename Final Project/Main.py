@@ -3,6 +3,7 @@ from tkinter import messagebox
 import pandas as pd
 from tkintertable import TableCanvas, TableModel
 import Calculations  # Assuming this is the module with your animation code
+import GuessOrbit
 
 class MyGUI:
     def __init__(self):
@@ -44,6 +45,15 @@ class MyGUI:
             command=self.show_animation
         )
         button.pack(padx=10, pady=10)
+
+        #Guess button
+        guess_button = tk.Button(
+            self.root,
+            text="Guess the Orbit!",
+            font = ('Arial', 18),
+            command=self.guess_comet_orbit
+        )
+        guess_button.pack(padx=10, pady=10)
 
         # Comet info label
         CometInfo = tk.Label(
@@ -166,6 +176,56 @@ class MyGUI:
     def shortcut(self, event):
         if event.keysym == "Return":
             self.show_animation()
+
+    def guess_comet_orbit(self):
+        comet = self.txtbox.get().strip()
+        if self.check_state.get() == 1:  # Random comet selected
+            comet = self.df['Object'].sample().iloc[0]  # Pick a random comet
+            self.txtbox.delete(0, tk.END)
+            self.txtbox.insert(0, comet)  # Update textbox with random comet name
+        comet_row = self.df[
+            (self.df['Object'].str.lower() == comet.lower()) |
+            (self.df['Object_name'].str.lower() == comet.lower())
+            ]
+
+        # Generate actual and guessed orbits
+        actual_positions, guess_positions, actual_params, guess_params = GuessOrbit.guess_orbit(
+            comet, self.df, num_points=1000, perturbation=0.05
+        )
+
+        # Compare orbits
+        residuals, error_metrics = GuessOrbit.compare_orbits(actual_positions, guess_positions, noise_level=0.01)
+
+        # Plot comparison
+        GuessOrbit.plot_orbit_comparison(comet, actual_positions, guess_positions, residuals)
+
+        # Prepare results message
+        param_names = ['e', 'q', 'i', 'w', 'Omega', 'TP']
+        param_comparison = "\n".join([
+            f"{name}: Actual={actual:.6f}, Guessed={guess:.6f}, Diff={guess - actual:.6f}"
+            for name, actual, guess in zip(param_names, actual_params, guess_params)
+        ])
+
+        error_message = (
+            f"Error Metrics:\n"
+            f"Mean Residual (AU): {error_metrics['mean_residual']:.6f}\n"
+            f"Std Residual (AU): {error_metrics['std_residual']:.6f}\n"
+            f"Chi-squared: {error_metrics['chi_squared']:.2f}\n"
+            f"Reduced Chi-squared: {error_metrics['reduced_chi_squared']:.2f}"
+        )
+
+        message = (
+            f"Orbit Guess Results for {comet}:\n\n"
+            f"Parameters:\n{param_comparison}\n\n"
+            f"{error_message}"
+        )
+
+        # Display results
+        messagebox.showinfo(
+            title="Guess Orbit Results",
+            message=message
+        )
+
 
 # Main
 MyGUI()
